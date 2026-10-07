@@ -11,5 +11,9 @@
     <GenerateDependencyFile>false</GenerateDependencyFile>
     <BannerlordPath Condition="'$(BannerlordPath)' == ''">C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord</BannerlordPath>
     <CIStatisticsDistDir>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)dist\'))</CIStatisticsDistDir>
+    <BannerlordMainBin Condition="'$(BannerlordServerBin)' != ''">$(BannerlordServerBin)</BannerlordMainBin>
+    <BannerlordMainBin Condition="'$(BannerlordMainBin)' == ''">$(BannerlordPath)\bin\Win64_Shipping_Client</BannerlordMainBin>
+    <BannerlordMultiplayerDll Condition="'$(BannerlordServerBin)' != ''">$(BannerlordServerBin)\TaleWorlds.MountAndBlade.Multiplayer.dll</BannerlordMultiplayerDll>
+    <BannerlordMultiplayerDll Condition="'$(BannerlordMultiplayerDll)' == ''">$(BannerlordPath)\Modules\Multiplayer\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.Multiplayer.dll</BannerlordMultiplayerDll>
   </PropertyGroup>
 </Project>

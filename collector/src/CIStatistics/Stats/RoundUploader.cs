@@ -98,14 +98,21 @@ namespace CIStatistics.Stats
                         if (response.IsSuccessStatusCode)
                         {
                             string body = await response.Content.ReadAsStringAsync();
-                            string outcome = "saved";
+                            string? stateName = null;
                             try
                             {
                                 using var result = JsonDocument.Parse(body);
                                 if (result.RootElement.TryGetProperty("status", out var state))
-                                    outcome = state.GetString() == "ignored" ? "ignored (no scheduled event today)" : "saved";
+                                    stateName = state.GetString();
                             }
                             catch { }
+                            if (stateName != "accepted" && stateName != "duplicate" && stateName != "ignored")
+                            {
+                                _lastUpload = "Backend returned an unexpected response; report retained.";
+                                Debug.Print("[CIStatistics] Unexpected upload acknowledgment; queue retained.");
+                                break;
+                            }
+                            string outcome = stateName == "ignored" ? "ignored (no scheduled event on the round's date)" : "saved";
                             _lastUpload = $"Last report {outcome} at {DateTimeOffset.UtcNow:HH:mm:ss} UTC.";
                             File.Delete(file);
                         }

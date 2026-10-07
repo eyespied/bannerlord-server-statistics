@@ -60,6 +60,8 @@ Install .NET SDK and matching Bannerlord game assemblies on the build machine. T
 dotnet build collector/src/CIStatistics/CIStatistics.csproj -c Release
 # Optional different game location:
 dotnet build collector/src/CIStatistics/CIStatistics.csproj -c Release '-p:BannerlordPath=D:\Games\Bannerlord'
+# Or use dedicated-server assembly references:
+dotnet build collector/src/CIStatistics/CIStatistics.csproj -c Release '-p:BannerlordServerBin=D:\Server\bin\Linux64_Shipping_Server'
 ```
 
 Copy `collector/dist/` into the server's `Modules/CIStatistics/`, add the private config next to `SubModule.xml`, then enable CIStatistics after Native and Multiplayer in the server's module list. Restart that instance during maintenance. Release ZIPs contain only this mod's DLL/manifest/example; no TaleWorlds DLLs. A disabled example config is included.
@@ -88,5 +90,7 @@ dotnet run --project collector/tests/CollectorTests.csproj -c Release
 ```
 
 Durable outbox failure/restart replay, conflict retention and per-round counter deltas are tested. The CI integration additionally tested actual PostgreSQL transactions, duplicate reports, server scope, revocation, SQL permissions, London midnight/DST and website validation/build.
+
+After `npm ci` in `backend`, run `node backend/test-smoke.mjs` from the repository root for health and anonymous-upload rejection checks. Private command tests cover all/team chat suppression, author-only replies and preservation of ordinary messages. The collector also builds against inspected v1.4.8 Linux dedicated-server assemblies. Unexpected HTTP success pages retain reports rather than falsely acknowledging them.
 
 Supported modes must expose `MultiplayerRoundController`; continuous siege/deathmatch requires a separate lifecycle implementation. Actual multiplayer round verification of this extracted module is still required before relying on it for production event statistics. No running game server is automatically changed by these scripts.

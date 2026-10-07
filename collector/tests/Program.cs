@@ -9,8 +9,9 @@ namespace TaleWorlds.Library { public static class Debug { public static void Pr
 namespace TaleWorlds.MountAndBlade { }
 internal sealed class FakeHandler : HttpMessageHandler {
  public HttpStatusCode Status=HttpStatusCode.ServiceUnavailable;
+ public string Body="{\"status\":\"accepted\"}";
  public string? LastBody; public string? Authorization;
- protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,CancellationToken token){LastBody=await request.Content!.ReadAsStringAsync(token);Authorization=request.Headers.Authorization?.ToString();return new HttpResponseMessage(Status);}
+ protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,CancellationToken token){LastBody=await request.Content!.ReadAsStringAsync(token);Authorization=request.Headers.Authorization?.ToString();return new HttpResponseMessage(Status){Content=new StringContent(Body)};}
 }
 internal static class Program {
  static void Assert(bool condition,string message){if(!condition)throw new Exception(message);}
@@ -22,6 +23,7 @@ internal static class Program {
   first.EnqueueRound(report);Assert(Directory.GetFiles(folder,"*.json").Length==1,"Round persisted before upload");
   await first.DrainOnce();Assert(Directory.GetFiles(folder,"*.json").Length==1,"HTTP failure retains round");
   string? body=handler.LastBody;
+  handler.Status=HttpStatusCode.OK;handler.Body="<html>Login required</html>";await first.DrainOnce();Assert(Directory.GetFiles(folder,"*.json").Length==1,"Unexpected success page does not discard report");
   var secondHandler=new FakeHandler{Status=HttpStatusCode.OK};var restarted=new RoundUploader(config,secondHandler,false);
   await restarted.DrainOnce();Assert(Directory.GetFiles(folder,"*.json").Length==0,"Restart replays persisted round");Assert(body==secondHandler.LastBody,"Retry preserves identity and timestamp");
   Assert(secondHandler.Authorization=="Bearer "+config.IngestToken,"Only server token sent");
