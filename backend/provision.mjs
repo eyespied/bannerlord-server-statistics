@@ -1,0 +1,12 @@
+import {randomBytes,createHash} from 'node:crypto';
+import {writeFile} from 'node:fs/promises';
+import {createClient} from '@supabase/supabase-js';
+const [name,url]=process.argv.slice(2);
+if(!name||name.length>100||!url||new URL(url).protocol!=='https:')throw Error('Usage: node --env-file=.env provision.mjs "Server name" https://your-site/ingest');
+const db=createClient(process.env.SUPABASE_URL,process.env.SUPABASE_SECRET_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
+const token=randomBytes(32).toString('base64url');
+const {data,error}=await db.from('ci_statistics_servers').insert({name,token_hash:createHash('sha256').update(token).digest('hex'),scheduled_only:false}).select('id').single();
+if(error)throw Error('Credential creation failed');
+const file=data.id+'-stats_config.json';
+await writeFile(file,JSON.stringify({Enabled:true,IngestUrl:url,IngestToken:token,QueueDirectory:'ci-statistics-queue'},null,2),{mode:0o600,flag:'wx'});
+console.log('Created server '+data.id+'. Upload '+file+' as Modules/CIStatistics/stats_config.json. Keep it private.');

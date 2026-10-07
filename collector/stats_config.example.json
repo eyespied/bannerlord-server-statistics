@@ -1,0 +1,6 @@
+{
+  "Enabled": false,
+  "IngestUrl": "https://YOUR-WEBSITE/api-next/ci-statistics/ingest",
+  "IngestToken": "REPLACE_ME",
+  "QueueDirectory": "ci-statistics-queue"
+}

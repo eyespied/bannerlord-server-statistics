@@ -1,0 +1,1 @@
+{"name":"bannerlord-statistics-backend","version":"1.0.0","private":true,"type":"module","engines":{"node":">=22"},"scripts":{"start":"node --env-file=.env server.mjs","provision":"node --env-file=.env provision.mjs"},"dependencies":{"@supabase/supabase-js":"2.108.2"}}

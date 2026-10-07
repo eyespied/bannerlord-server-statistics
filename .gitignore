@@ -1,0 +1,12 @@
+**/bin/
+**/obj/
+**/dist/
+**/build/
+**/node_modules/
+**/stats_config.json
+**/*-stats_config.json
+**/ci-statistics-queue/
+.env
+.env.*
+!.env.example
+*.zip

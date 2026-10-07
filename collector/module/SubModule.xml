@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module>
+	<Name value="CIStatistics"/>
+	<Id value="CIStatistics"/>
+	<Version value="v1.0.0"/>
+	<!-- Server = DS-only (statistics only). Clients join with Native+Multiplayer only. -->
+	<ModuleCategory value="Server"/>
+	<DependedModules>
+		<DependedModule Id="Native" Optional="false"/>
+		<DependedModule Id="Multiplayer" Optional="false"/>
+	</DependedModules>
+	<SubModules>
+		<SubModule>
+			<Name value="CIStatistics"/>
+			<DLLName value="CIStatistics.dll"/>
+			<SubModuleClassType value="CIStatistics.CIStatisticsSubModule"/>
+			<Tags>
+				<Tag key="DedicatedServerType" value="custom"/>
+			</Tags>
+		</SubModule>
+	</SubModules>
+</Module>

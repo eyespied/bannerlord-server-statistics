@@ -1,0 +1,4 @@
+<Project Sdk="Microsoft.NET.Sdk">
+ <PropertyGroup><TargetFramework>net6.0</TargetFramework><OutputType>Exe</OutputType><EnableDefaultCompileItems>false</EnableDefaultCompileItems><Nullable>enable</Nullable><OutputPath>../build/tests/</OutputPath></PropertyGroup>
+ <ItemGroup><Compile Include="Program.cs"/><Compile Include="PrivateChatTests.cs"/><Compile Include="../src/CIStatistics/PrivateStatusCommand.cs"/><Compile Include="../src/CIStatistics/Stats/RoundUploader.cs"/><Compile Include="../src/CIStatistics/Stats/ReportModels.cs"/><Compile Include="../src/CIStatistics/Stats/PlayerRoundSnapshot.cs"/><Compile Include="../src/CIStatistics/Stats/StatsConfig.cs"/></ItemGroup>
+</Project>
