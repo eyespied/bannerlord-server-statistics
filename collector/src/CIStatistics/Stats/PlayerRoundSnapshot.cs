@@ -6,7 +6,17 @@ namespace CIStatistics.Stats
     {
         public string SteamId { get; set; } = string.Empty;
         public string DisplayName { get; set; } = string.Empty;
-        public string TeamSide { get; set; } = string.Empty;
+        private string _teamSide = string.Empty;
+        public string TeamSide
+        {
+            get => _teamSide;
+            set
+            {
+                // A spectator/unassigned update must not erase a participant's last team.
+                if (value == "Attacker" || value == "Defender") _teamSide = value;
+            }
+        }
+        public bool HasAssignedTeam => _teamSide == "Attacker" || _teamSide == "Defender";
         public string ClassGroup { get; set; } = "Infantry";
         public string CultureId { get; set; } = string.Empty;
 

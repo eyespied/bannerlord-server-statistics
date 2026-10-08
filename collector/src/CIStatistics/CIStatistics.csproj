@@ -3,7 +3,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>CIStatistics</RootNamespace>
     <AssemblyName>CIStatistics</AssemblyName>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <OutputPath>$(CIStatisticsDistDir)bin\Win64_Shipping_Server\</OutputPath>
   </PropertyGroup>
 

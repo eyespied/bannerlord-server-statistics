@@ -29,7 +29,11 @@ internal static class Program {
   Assert(secondHandler.Authorization=="Bearer "+config.IngestToken,"Only server token sent");
   first.EnqueueRound(report);handler.Status=HttpStatusCode.Conflict;await first.DrainOnce();Assert(Directory.GetFiles(folder,"*.rejected").Length==1,"Conflict preserved for investigation");
   var snapshot=new PlayerRoundSnapshot{BaselineKills=10,BaselineDeaths=4,BaselineAssists=2,BaselineScore=100};snapshot.ApplyMissionPeerDeltas(12,5,3,135);Assert(snapshot.Kills==2&&snapshot.Score==35,"Round deltas do not count earlier rounds");
-  Directory.Delete(folder,true);Console.WriteLine("PASS: durable queue, failure/restart replay, immutable retry, credential transport, rejection evidence and round deltas");
+  var spectator=new PlayerRoundSnapshot();Assert(!spectator.HasAssignedTeam,"Unassigned peers cannot enter round reports");
+  spectator.TeamSide="None";Assert(!spectator.HasAssignedTeam,"Spectators cannot enter round reports");
+  spectator.TeamSide="Defender";spectator.TeamSide="None";spectator.TeamSide="";
+  Assert(spectator.HasAssignedTeam&&spectator.TeamSide=="Defender","Leaving a team retains the last assigned side");
+  Directory.Delete(folder,true);Console.WriteLine("PASS: durable queue, failure/restart replay, immutable retry, credential transport, rejection evidence, round deltas and spectator filtering");
   PrivateChatTests.Run();
  }
 }

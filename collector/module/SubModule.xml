@@ -2,7 +2,7 @@
 <Module>
 	<Name value="CIStatistics"/>
 	<Id value="CIStatistics"/>
-	<Version value="v1.0.1"/>
+	<Version value="v1.0.2"/>
 	<!-- Server = DS-only (statistics only). Clients join with Native+Multiplayer only. -->
 	<ModuleCategory value="Server"/>
 	<DependedModules>

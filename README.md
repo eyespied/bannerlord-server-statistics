@@ -4,6 +4,12 @@ A reusable, server-only Bannerlord statistics mod and small HTTPS ingestion back
 
 The game module is named **CIStatistics** internally. Keep that folder/module ID; the repository name does not change the game's ID. Source is extracted from the existing SkirmishPlay collector, with no minimum player count and a durable whole-round outbox.
 
+## Version 1.0.2
+
+Fixes whole-round HTTP 400 rejections caused by unassigned spectators. Only players with an assigned battle side are included, and participants retain their last known side when moving to spectator. Collector regression tests and the Release build pass; updated in-game runtime verification is still required.
+
+To update, replace the module files, preserve your private configuration and upload queue, then restart the dedicated server. Existing rejected reports remain available for inspection and recovery.
+
 ## What statistics are recorded?
 
 | Group | Recorded values |

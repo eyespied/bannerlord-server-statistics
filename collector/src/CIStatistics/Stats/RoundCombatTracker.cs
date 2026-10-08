@@ -254,7 +254,7 @@ namespace CIStatistics.Stats
 
             var players = new System.Collections.Generic.List<RoundPlayerRpcPayload>();
             foreach (PlayerRoundSnapshot snap in _roundStats.Values)
-                if (snap.TeamSide != BattleSideEnum.None.ToString())
+                if (snap.HasAssignedTeam)
                     players.Add(ToRpcPayload(_matchId.Value, roundNumber, snap));
             if (players.Count > 0)
                 _client.EnqueueRound(new RoundReport {
