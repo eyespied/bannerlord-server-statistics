@@ -30,6 +30,22 @@ Your website can derive K/D, win rate, per-round averages, MVP rate, hit/headsho
 
 Type **`/stats`** (alias `!stats`) in all or team chat for a private readiness/recording/upload status reply. The command itself is suppressed from native forwarding; other players receive neither it nor the reply. Status includes active round, warmup/waiting/config issues, queued/rejected reports and last upload result, with no credentials or internal paths. Three-second cooldown per player.
 
+## Example website views
+
+These screenshots from Coronas Ibéricas show what you can build around the recorded statistics. The generic repository supplies the collector and ingestion backend; the website design, player profiles and skill-rating/rank system shown here are separate application features.
+
+### Searchable leaderboards
+
+Aggregate completed rounds into overall and class-specific boards, with player search, score per round, K/D, kills, deaths, MVPs and win percentages. Rank badges can be added using your own rating system.
+
+![Example Open Skirmish leaderboard built around Bannerlord statistics](docs/examples/leaderboard.png)
+
+### Detailed player records
+
+Build player profiles with career totals, per-round averages, first kills/deaths and combat breakdowns for melee, ranged, throwing and mounted play. The collector records the underlying round statistics; your website calculates and presents the summaries.
+
+![Example player profile with career and combat statistics](docs/examples/player-profile.png)
+
 ## 1. Prepare your own backend
 
 Use your own Supabase project. Apply `backend/schema.sql` in its SQL editor as database owner. It creates isolated statistics tables and an immutable ingestion function. It does not grant anonymous/authenticated clients database access. The generic configuration collects every live day; optional scheduled dates use `ci_statistics_event_calendar` and a server's `scheduled_only=true` flag.
